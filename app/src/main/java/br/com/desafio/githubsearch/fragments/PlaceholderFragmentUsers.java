@@ -6,10 +6,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.com.desafio.githubsearch.R;
 import br.com.desafio.githubsearch.requests.RequestAPI;
@@ -82,6 +84,13 @@ public class PlaceholderFragmentUsers extends Fragment {
                 ru.execute(inputSearch.getText().toString());
 
                 return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "Click list position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
