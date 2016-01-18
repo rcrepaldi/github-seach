@@ -105,12 +105,12 @@ public class RequestUser {
     }
 
     private void setElementsValues(User user){
-        userActivity.getTextViewLogin().setText(user.getLogin().equals(null) ? "Login Não informado" : "Login " + user.getLogin());
-        userActivity.getTextViewRepos().setText(user.getReposUrl().equals("null") ? "Login Não informado" : "Respos " + user.getReposUrl());
-        userActivity.getTextViewLocation().setText(user.getLocation().equals("null") ? "Local Não informado" : "Local " + user.getLocation());
-        userActivity.getTextViewEmail().setText(user.getEmail().equals("null") ? "Email Não informado" : "Email " + user.getEmail());
-        userActivity.getTextViewPublicRepos().setText(user.getPublicRepos().equals("null") ? "Repos Não informado" : "Repos " + user.getPublicRepos());
-        userActivity.getTextViewPublicGits().setText(user.getPublicGits().equals("null") ? "Gits Não informado" : "Gits " + user.getPublicGits());
+        userActivity.getTextViewLogin().setText(user.getLogin().equals(null) ? "Login não informado" : "Login: " + user.getLogin());
+        userActivity.getTextViewRepos().setText(user.getReposUrl().equals("null") ? "Login não informado" : "Respos: " + user.getReposUrl());
+        userActivity.getTextViewLocation().setText(user.getLocation().equals("null") ? "Local não informado" : "Local: " + user.getLocation());
+        userActivity.getTextViewEmail().setText(user.getEmail().equals("null") ? "Email não informado" : "Email: " + user.getEmail());
+        userActivity.getTextViewPublicRepos().setText(user.getPublicRepos().equals("null") ? "Repos não informado" : "Repos: " + user.getPublicRepos());
+        userActivity.getTextViewPublicGits().setText(user.getPublicGits().equals("null") ? "Gits não informado" : "Gits: " + user.getPublicGits());
     }
 
     public RequestQueue getRequestQueue() {
