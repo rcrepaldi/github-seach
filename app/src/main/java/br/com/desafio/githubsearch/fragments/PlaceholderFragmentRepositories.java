@@ -6,7 +6,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.desafio.githubsearch.R;
-import br.com.desafio.githubsearch.requests.RequestAPI;
+import br.com.desafio.githubsearch.requests.RequestListRepositories;
 
 /**
  * Created by rodrigo on 15/01/16.
@@ -84,20 +83,14 @@ public class PlaceholderFragmentRepositories extends Fragment {
                 }
 
                 // Performs the call of the RequestAPI
-                RequestAPI ru = new RequestAPI(PlaceholderFragmentRepositories.this);
-                ru.execute(inputSearch.getText().toString());
+                RequestListRepositories request = new RequestListRepositories(PlaceholderFragmentRepositories.this);
+                request.execute(inputSearch.getText().toString());
 
                 return false;
             }
         });
 
-        // Calls by clicking the item list view
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Click list position: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     /**
@@ -114,13 +107,5 @@ public class PlaceholderFragmentRepositories extends Fragment {
      */
     public ListView getListView(){
         return listView;
-    }
-
-    /**
-     * Return string with message of pop-up loading
-     * @return
-     */
-    public String getMessageLoading(){
-        return getString(R.string.message_loading_repositories);
     }
 }

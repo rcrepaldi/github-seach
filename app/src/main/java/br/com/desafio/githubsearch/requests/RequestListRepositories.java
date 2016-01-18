@@ -22,69 +22,54 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import br.com.desafio.githubsearch.R;
 import br.com.desafio.githubsearch.fragments.PlaceholderFragmentRepositories;
 import br.com.desafio.githubsearch.fragments.PlaceholderFragmentUsers;
 import br.com.desafio.githubsearch.objects.ParserReponse;
 
-import br.com.desafio.githubsearch.R;
-
 /**
  * Created by rodrigo on 15/01/16.
  */
-public class RequestAPI {
+public class RequestListRepositories {
 
+    private PlaceholderFragmentRepositories placeholderFragmentRepositories;
     private RequestQueue mRequestQueue;
     private ProgressDialog progressDialog;
     private ListView listView;
-    private Fragment fragment;
-    private String url;
     private ImageView imageLogo;
-    private int identifyRequest;
-    private String messageLoading;
     private String[] values;
 
-    public RequestAPI(PlaceholderFragmentUsers placeholderFragmentUsers) {
-        this.fragment = placeholderFragmentUsers;
-        this.listView = placeholderFragmentUsers.getListView();
-        this.imageLogo = placeholderFragmentUsers.getImageLogo();
-        this.messageLoading = placeholderFragmentUsers.getMessageLoading();
-        this.url = "https://api.github.com/search/users?q=";
-        init(1);
-    }
-
-    public RequestAPI(PlaceholderFragmentRepositories placeholderFragmentRepositories) {
-        this.fragment = placeholderFragmentRepositories;
+    public RequestListRepositories(PlaceholderFragmentRepositories placeholderFragmentRepositories) {
+        this.placeholderFragmentRepositories = placeholderFragmentRepositories;
         this.listView = placeholderFragmentRepositories.getListView();
         this.imageLogo = placeholderFragmentRepositories.getImageLogo();
-        this.messageLoading = placeholderFragmentRepositories.getMessageLoading();
-        this.url = "https://api.github.com/search/repositories?q=";
-        init(2);
+        init();
     }
 
-    private void init(int identifyRequest){
-        this.identifyRequest = identifyRequest;
+    private void init(){
         imageLogo.setVisibility(View.INVISIBLE);
-        progressDialog = ProgressDialog.show(fragment.getActivity(), "Aguarde", messageLoading, false);
+        progressDialog = ProgressDialog.show(placeholderFragmentRepositories.getActivity(), "Aguarde", placeholderFragmentRepositories.getString(R.string.message_loading_repositories), false);
     }
 
     public void execute(String value){
 
-        //
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url+value,
+        String url = "https://api.github.com/search/repositories?q="+value;
+
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        values = ParserReponse.parserResponse(response, identifyRequest);
+                        values = ParserReponse.parserResponseRepositories(response);
 
                         if (values.length < 1){
 
-                            Toast.makeText(fragment.getActivity(), "Nenhum resultado encontrado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(placeholderFragmentRepositories.getActivity(), "Nenhum resultado encontrado", Toast.LENGTH_SHORT).show();
                             resetFragmentUI();
 
                         }else {
 
-                            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(fragment.getActivity(), android.R.layout.simple_list_item_1, values);
+                            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(placeholderFragmentRepositories.getActivity(), android.R.layout.simple_list_item_1, values);
                             listView.setAdapter(titleAdapter);
 
                         }
@@ -100,12 +85,12 @@ public class RequestAPI {
 
                         String errorMessage;
                         if(error instanceof NoConnectionError) {
-                            errorMessage = fragment.getActivity().getString(R.string.message_connection_error);
+                            errorMessage = placeholderFragmentRepositories.getActivity().getString(R.string.message_connection_error);
                         }else {
-                            errorMessage = fragment.getActivity().getString(R.string.message_error);
+                            errorMessage = placeholderFragmentRepositories.getActivity().getString(R.string.message_error);
                         }
 
-                        Snackbar.make(fragment.getActivity().findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG)
+                        Snackbar.make(placeholderFragmentRepositories.getActivity().findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
 
                         resetFragmentUI();
@@ -118,7 +103,7 @@ public class RequestAPI {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null)
-            mRequestQueue = Volley.newRequestQueue(fragment.getActivity());
+            mRequestQueue = Volley.newRequestQueue(placeholderFragmentRepositories.getActivity());
 
         return mRequestQueue;
     }
@@ -128,7 +113,7 @@ public class RequestAPI {
         listView.setAdapter(null);
         progressDialog.dismiss();
 
-        InputMethodManager imm = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) placeholderFragmentRepositories.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(listView.getWindowToken(), 0);
     }
 

@@ -1,10 +1,13 @@
 package br.com.desafio.githubsearch.activitys;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,12 +19,16 @@ public class UserActivity extends AppCompatActivity {
     private ImageView imageUser;
     private TextView textViewLogin, textViewRepos, textViewLocation, textViewEmail,
             textViewPublicRepos, textViewPublicGits;
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha, this.getTheme()));
 
         initElements();
 
@@ -40,6 +47,18 @@ public class UserActivity extends AppCompatActivity {
         textViewEmail       = (TextView) findViewById(R.id.textViewEmail);
         textViewPublicRepos = (TextView) findViewById(R.id.textViewPublicRepos);
         textViewPublicGits  = (TextView) findViewById(R.id.textViewPublicGits);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public ImageView getImageUser(){

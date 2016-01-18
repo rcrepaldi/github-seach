@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import br.com.desafio.githubsearch.R;
 import br.com.desafio.githubsearch.activitys.UserActivity;
-import br.com.desafio.githubsearch.requests.RequestAPI;
+import br.com.desafio.githubsearch.requests.RequestListUsers;
 
 /**
  * Created by rodrigo on 15/01/16.
@@ -27,6 +27,7 @@ public class PlaceholderFragmentUsers extends Fragment {
     private EditText inputSearch;
     private ListView listView;
     private ImageView imageLogo;
+    private RequestListUsers request;
 
     /**
      * The fragment argument representing the section number for this
@@ -76,7 +77,6 @@ public class PlaceholderFragmentUsers extends Fragment {
     private void eventsComponents(){
 
         final Fragment frag = this;
-        final RequestAPI[] ru = new RequestAPI[1];
 
         // Calls by clicking the keyboard search button
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -90,8 +90,8 @@ public class PlaceholderFragmentUsers extends Fragment {
                 }
 
                 // Performs the call of the RequestAPI
-                ru[0] = new RequestAPI(PlaceholderFragmentUsers.this);
-                ru[0].execute(inputSearch.getText().toString());
+                request = new RequestListUsers(PlaceholderFragmentUsers.this);
+                request.execute(inputSearch.getText().toString());
 
                 return false;
             }
@@ -101,11 +101,9 @@ public class PlaceholderFragmentUsers extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Click list position: " + position, Toast.LENGTH_SHORT).show();
-
                 // Open activity user
                 Intent intent = new Intent(getActivity(), UserActivity.class);
-                intent.putExtra("LOGIN", ru[0].getUser(position));
+                intent.putExtra("LOGIN", request.getUser(position));
                 getActivity().startActivity(intent);
             }
         });
@@ -125,13 +123,5 @@ public class PlaceholderFragmentUsers extends Fragment {
      */
     public ListView getListView(){
         return listView;
-    }
-
-    /**
-     * Return string with message of pop-up loading
-     * @return
-     */
-    public String getMessageLoading(){
-        return getString(R.string.message_loading_users);
     }
 }

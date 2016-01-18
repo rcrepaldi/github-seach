@@ -9,14 +9,12 @@ import org.json.JSONObject;
  */
 public class ParserReponse {
 
-    public static String[] parserResponse(JSONObject response, int identify) {
-        if(identify == 1)
-            return parserResponseUsers(response);
-        else
-            return parserResponseRepositories(response);
-    }
-
-    private static String[] parserResponseUsers(JSONObject response) {
+    /**
+     * Parser users
+     * @param response
+     * @return
+     */
+    public static String[] parserResponseUsers(JSONObject response) {
 
         try {
 
@@ -37,7 +35,12 @@ public class ParserReponse {
         return null;
     }
 
-    private static String[] parserResponseRepositories(JSONObject response) {
+    /**
+     * Parser repositories
+     * @param response
+     * @return
+     */
+    public static String[] parserResponseRepositories(JSONObject response) {
 
         try {
 
