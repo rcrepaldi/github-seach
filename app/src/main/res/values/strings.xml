@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Git Hub Search</string>
     <string name="action_settings">Sobre</string>
-    <!--<string name="section_format">Hello World from section: %1$d</string>-->
+
+    <string name="text_users">USUÁRIOS</string>
+    <string name="text_repositories">RESPOSITÓRIOS</string>
+
+    <string name="message_loading_users">Procurando usuários</string>
+    <string name="message_loading_repositories">Procurando respositórios</string>
+    <string name="message_connection_error">SEM CONEXÃO, TENTE NOVAMENTE</string>
+    <string name="message_error">OPS! ALGO ERRADO</string>
+    <string name="message_loading_user">Buscando usuário</string>
+    <string name="message_loading_repositorie">Buscando respositório</string>
+    <string name="message_edittext_null">CAMPO VAZIO</string>
+    <string name="title_activity_user">UserActivity</string>
 </resources>

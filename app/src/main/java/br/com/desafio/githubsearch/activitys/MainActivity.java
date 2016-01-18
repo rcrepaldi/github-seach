@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "USUÁRIOS";
+                    return getString(R.string.text_users);
                 case 1:
-                    return "RESPOSITÓRIOS";
+                    return getString(R.string.text_repositories);
             }
             return null;
         }

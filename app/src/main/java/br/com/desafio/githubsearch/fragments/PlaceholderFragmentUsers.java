@@ -1,5 +1,6 @@
 package br.com.desafio.githubsearch.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.desafio.githubsearch.R;
+import br.com.desafio.githubsearch.activitys.UserActivity;
 import br.com.desafio.githubsearch.requests.RequestAPI;
 
 /**
@@ -74,32 +76,62 @@ public class PlaceholderFragmentUsers extends Fragment {
     private void eventsComponents(){
 
         final Fragment frag = this;
+        final RequestAPI[] ru = new RequestAPI[1];
 
-        // Chama ao clicar no botão de busca do teclado
+        // Calls by clicking the keyboard search button
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                RequestAPI ru = new RequestAPI(PlaceholderFragmentUsers.this);
-                ru.execute(inputSearch.getText().toString());
+                // Verifity editText vaues is equals null
+                if(inputSearch.getText().toString().equals("")){
+                    Toast.makeText(getActivity(), getString(R.string.message_edittext_null), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                // Performs the call of the RequestAPI
+                ru[0] = new RequestAPI(PlaceholderFragmentUsers.this);
+                ru[0].execute(inputSearch.getText().toString());
 
                 return false;
             }
         });
 
+        // Calls by clicking the item list view
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "Click list position: " + position, Toast.LENGTH_SHORT).show();
+
+                // Open activity user
+                Intent intent = new Intent(getActivity(), UserActivity.class);
+                intent.putExtra("LOGIN", ru[0].getUser(position));
+                getActivity().startActivity(intent);
             }
         });
     }
 
+    /**
+     * Return compoent of ImageView
+     * @return
+     */
     public ImageView getImageLogo(){
         return imageLogo;
     }
 
+    /**
+     * Return compoent of ListView
+     * @return
+     */
     public ListView getListView(){
         return listView;
+    }
+
+    /**
+     * Return string with message of pop-up loading
+     * @return
+     */
+    public String getMessageLoading(){
+        return getString(R.string.message_loading_users);
     }
 }

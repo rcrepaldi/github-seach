@@ -6,10 +6,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.com.desafio.githubsearch.R;
 import br.com.desafio.githubsearch.requests.RequestAPI;
@@ -70,24 +72,55 @@ public class PlaceholderFragmentRepositories extends Fragment {
      */
     private void eventsComponents(){
 
-        // Chama ao clicar no botão de busca do teclado
+        // Calls by clicking the keyboard search button
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
+                // Verifity editText vaues is equals null
+                if(inputSearch.getText().toString().equals("")){
+                    Toast.makeText(getActivity(), getString(R.string.message_edittext_null), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                // Performs the call of the RequestAPI
                 RequestAPI ru = new RequestAPI(PlaceholderFragmentRepositories.this);
                 ru.execute(inputSearch.getText().toString());
 
                 return false;
             }
         });
+
+        // Calls by clicking the item list view
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "Click list position: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    /**
+     * Return compoent of ImageView
+     * @return
+     */
     public ImageView getImageLogo(){
         return imageLogo;
     }
 
+    /**
+     * Return compoent of ListView
+     * @return
+     */
     public ListView getListView(){
         return listView;
+    }
+
+    /**
+     * Return string with message of pop-up loading
+     * @return
+     */
+    public String getMessageLoading(){
+        return getString(R.string.message_loading_repositories);
     }
 }

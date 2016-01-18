@@ -1,4 +1,4 @@
-package br.com.desafio.githubsearch.objetos;
+package br.com.desafio.githubsearch.objects;
 
 import org.json.JSONArray;
 import org.json.JSONException;
